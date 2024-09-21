@@ -2,16 +2,21 @@ import React, { useEffect, useState } from "react";
 import BookModel from "../models/BookModel";
 import { getAllBook } from "../api/BookAPI";
 import BookProps from "./components/BookProps";
+import { Pagination } from "../layouts/utils/Pagination";
 const ListProduct: React.FC = () => {
 
     const [listBook, setListBook] = useState<BookModel[]>([]);
     const [dataConnecting, setDataConnecting] = useState(true);
     const [error, setError] = useState(null);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [totalPage, setTotalPage] = useState(0);
+    const [totalBook, setTotalBook] = useState(0);
 
     useEffect(() => {
-        getAllBook().then(
+        getAllBook(currentPage - 1).then(
             bookData =>{
-                setListBook(bookData);
+                setListBook(bookData.result);
+                setTotalPage(bookData.sumPage);
                 setDataConnecting(false);
             }
         ).catch(
@@ -20,8 +25,10 @@ const ListProduct: React.FC = () => {
                 setError(error.message);
             }
         );
-    }, [] // Chi goi mot lan
+    }, [currentPage] // Chi goi mot lan
     )
+
+    const pagination = (page: number) => setCurrentPage(page);
 
     if (dataConnecting) {
         return (
@@ -49,6 +56,7 @@ const ListProduct: React.FC = () => {
                     )
                 }
             </div>
+            <Pagination currentPage={currentPage} sumPage={totalPage} pagination={pagination}/>
         </div>
     );
 }

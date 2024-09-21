@@ -2,9 +2,14 @@ import React from "react";
 import BookModel from "../models/BookModel";
 import { my_request } from "./Request";
 
-async function getBook(url: string): Promise<BookModel[]> {
-    const result: BookModel[] = [];
+interface ResultInterface{
+    result: BookModel[];
+    sumPage: number;
+    sumBook: number;  
+}
 
+async function getBook(url: string): Promise<ResultInterface> {
+    const result: BookModel[] = [];
 
     // Gọi phương thức request
     const response = await my_request(url);
@@ -14,6 +19,10 @@ async function getBook(url: string): Promise<BookModel[]> {
     // Lấy ra json sach
     const responseData = response._embedded.books;
     console.log(responseData);
+
+    // lấy thông tin trang
+    const sumPage:number = response.page.totalPages;
+    const sumBook: number = response.page.totalElements;
 
     for (const key in responseData) {
         result.push({
@@ -28,16 +37,16 @@ async function getBook(url: string): Promise<BookModel[]> {
         });
     }
 
-    return result;
+    return {result: result, sumPage: sumPage, sumBook: sumBook};
 }
 
-export async function getAllBook(): Promise<BookModel[]> {
+export async function getAllBook(currentPage: number): Promise<ResultInterface> {
     // Xác định endpoint
-    const url: string = 'http://localhost:8080/book?sort=codeBook,desc';
+    const url: string = `http://localhost:8080/book?sort=codeBook,desc&size=8&page=${currentPage}`;
     return getBook(url);
 }
 
-export async function getThirdNewBook(): Promise<BookModel[]> {
+export async function getThirdNewBook(): Promise<ResultInterface> {
     // Xác định endpoint
     const url: string = 'http://localhost:8080/book?sort=codeBook,desc&page=0&size=3';
     return getBook(url);
