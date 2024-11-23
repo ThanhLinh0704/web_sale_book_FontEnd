@@ -1,5 +1,5 @@
 class ImageModel {
-    codeImage?: number;
+    codeImage: number;
     nameImage?: string;
     isIcon?: boolean;
     url?: string;

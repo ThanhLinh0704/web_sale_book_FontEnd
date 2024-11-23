@@ -50,6 +50,8 @@ const CarouselItem: React.FC<CarouselItemInterface> = (props) => {
     if(listImage[0] && listImage[0].dataImage){
         dataImage=listImage[0].dataImage;
     }
+    console.log(dataImage)
+
 
     return (
         <div className="row align-items-center">

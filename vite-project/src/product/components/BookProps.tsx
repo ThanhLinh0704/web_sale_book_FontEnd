@@ -18,6 +18,7 @@ const BookProps: React.FC<BookPropsInterface> = (props) => {
         getAllImageOfBook(codeBook).then(
             imageData =>{
                 setListImage(imageData);
+                console.log(listImage)
                 setDataConnecting(false);
             }
         ).catch(
@@ -46,9 +47,11 @@ const BookProps: React.FC<BookPropsInterface> = (props) => {
     }
 
     let dataImage:string="";
+    console.log(listImage)
     if(listImage[0] && listImage[0].dataImage){
         dataImage=listImage[0].dataImage;
     }
+    console.log(dataImage)
 
     return (
         <div className="col-md-3 mt-2">

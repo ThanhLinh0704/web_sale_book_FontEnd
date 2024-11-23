@@ -23,6 +23,8 @@ async function getBook(url: string): Promise<ResultInterface> {
     // lấy thông tin trang
     const sumPage:number = response.page.totalPages;
     const sumBook: number = response.page.totalElements;
+    console.log(sumPage)
+    console.log(sumBook)
 
     for (const key in responseData) {
         result.push({
@@ -36,6 +38,7 @@ async function getBook(url: string): Promise<ResultInterface> {
             rating:responseData[key].rating
         });
     }
+    console.log(result)
 
     return {result: result, sumPage: sumPage, sumBook: sumBook};
 }
