@@ -54,3 +54,17 @@ export async function getThirdNewBook(): Promise<ResultInterface> {
     const url: string = 'http://localhost:8080/book?sort=codeBook,desc&page=0&size=3';
     return getBook(url);
 }
+
+export async function searchBook(keywordSearch: string, codeCategory: number): Promise<ResultInterface> {
+   // Xác định endpoint
+   let url: string = `http://localhost:8080/book?sort=codeBook,desc&size=8&page=0`;
+   if (keywordSearch !== "" && codeCategory == 0) {
+    url = `http://localhost:8080/book/search/findByNameBookContaining?nameBook=${keywordSearch}&sort=codeBook,desc&size=8&page=0`;
+    return getBook(url);
+   } else if (keywordSearch === "" && codeCategory > 0) {
+    url = `http://localhost:8080/book/search/findByCategoryList_CodeCategory?nameCategory=${codeCategory}&sort=codeBook,desc&size=8&page=0`;
+   return getBook(url);
+   } else {
+       return getBook(url);
+   }
+}
